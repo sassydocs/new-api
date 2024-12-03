@@ -34,7 +34,14 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
+      - name: Cache Vendor
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ matrix.php }}-vendor-${{ hashFiles('**/composer.lock') }}
+        
       - name: Install Composer dependencies
+        if: steps.cache-vendor.outputs.cache-hit != 'true' # Skip if cache hit
         run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Copy environment file
