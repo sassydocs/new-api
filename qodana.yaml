@@ -20,9 +20,11 @@ exclude:
 php:
   version: 8.2 #(Applied in CI/CD pipeline)
 
-#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
-#bootstrap: sh ./prepare-qodana.sh
-
+bootstrap: |+
+  set -eu
+  # For PHP projects that use Laravel:
+  composer require --dev barryvdh/laravel-ide-helper
+  
 #Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
 #plugins:
 #  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
